@@ -116,6 +116,7 @@ class KillTheMoleActivity : AppCompatActivity() {
                 Handler().postDelayed({
                     textToReady.text = resources.getString(R.string.Result) + score.toString()
                     Handler().postDelayed({
+                        score = 0
                         buttonRestart.showOrInvisible(true)
                         buttonHome.showOrInvisible(true)
                     }, 1000)
