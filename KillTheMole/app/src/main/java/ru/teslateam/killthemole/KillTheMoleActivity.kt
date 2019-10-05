@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.Button
 import kotlinx.android.synthetic.main.activity_kill_the_mole.*
-import kotlin.math.ceil
 import kotlin.math.floor
-import kotlin.math.round
 import android.os.Handler
 import kotlin.random.Random
-import kotlin.system.exitProcess
 
 
 class KillTheMoleActivity : AppCompatActivity() {
@@ -20,33 +16,49 @@ class KillTheMoleActivity : AppCompatActivity() {
     var moleNumber = 0
     var moleScoreNumber = 0
     var score = 0
-
-    fun ScorePlus() {
-        score++
-        moleScoreNumber = 0
-    }
+    
+    //View
 
     fun onClickMole(view: View) {
         view.setBackgroundResource(R.drawable.empty)
         when(view.id) {
-            firstMole.id -> if (moleScoreNumber == 1) ScorePlus()
-            secondMole.id -> if (moleScoreNumber == 2) ScorePlus()
-            thirdMole.id -> if (moleScoreNumber == 3) ScorePlus()
-            forthMole.id -> if (moleScoreNumber == 4) ScorePlus()
+            firstMole.id -> if (moleScoreNumber == 1) scorePlus()
+            secondMole.id -> if (moleScoreNumber == 2) scorePlus()
+            thirdMole.id -> if (moleScoreNumber == 3) scorePlus()
+            forthMole.id -> if (moleScoreNumber == 4) scorePlus()
         }
         ScoreOfKill.text = score.toString()
+    }
+
+    //Controller
+
+    private fun scorePlus() {
+        score++
+        moleScoreNumber = 0
+    }
+
+    fun randMole() {
+        moleNumber = Random.nextInt(1, 5)
+        moleScoreNumber = moleNumber
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kill_the_mole)
 
-        fun RandMole() {
-            moleNumber = Random.nextInt(1, 5)
-            moleScoreNumber = moleNumber
+        //Model
+
+        val modeNum: Int = intent.getIntExtra("mode",1)
+        
+        fun View.showOrInvisible(show: Boolean) {
+            visibility = if(show) {
+                View.VISIBLE
+            } else {
+                View.INVISIBLE
+            }
         }
 
-        fun moleanimation(a: Int) {
+        fun moleAnimation(a: Int) {
             when(a) {
                 3 -> when(moleNumber) {
                     1 -> firstMole.setBackgroundResource(R.drawable.mole1)
@@ -79,36 +91,38 @@ class KillTheMoleActivity : AppCompatActivity() {
             }
         }
 
-        val mole = object: CountDownTimer(1600, 500) {
+        val mole = object: CountDownTimer(((modeNum*3+1)*100).toLong(), (modeNum*100).toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 if(moleNumber ==moleScoreNumber)
-                    moleanimation(floor(millisUntilFinished.toDouble()/500).toInt())
+                    moleAnimation(floor(millisUntilFinished.toDouble()/(modeNum*100)).toInt())
                 else
-                    moleanimation(0)
+                    moleAnimation(0)
             }
             override fun onFinish() {
-                moleanimation(0)
+                moleAnimation(0)
             }
         }
         val game = object: CountDownTimer(60100, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 TimeToKill.text = floor(millisUntilFinished.toDouble()/1000).toInt().toString()
-                if (floor(millisUntilFinished.toDouble()/1000).toInt()%3 == 0) {
-                    RandMole()
+                if (floor(millisUntilFinished.toDouble()/1000).toInt()%(modeNum-1) == 0) {
+                    randMole()
                     mole.start()
                 }
             }
             override fun onFinish() {
-                TimeToKill.text = "0"
-                textToReady.text = "Game Over"
+                TimeToKill.text = resources.getString(R.string.timeToKill)
+                textToReady.text = resources.getString(R.string.GameOver)
                 Handler().postDelayed({
-                    textToReady.text = "Result: $score"
+                    textToReady.text = resources.getString(R.string.Result) + score.toString()
                     Handler().postDelayed({
-                        exitProcess(-1)
+                        buttonRestart.showOrInvisible(true)
+                        buttonHome.showOrInvisible(true)
                     }, 1000)
                 }, 500)
             }
         }
+
         val timer = object: CountDownTimer(3100, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 textToReady.text = floor(millisUntilFinished.toDouble()/1000).toInt().toString()
@@ -118,6 +132,22 @@ class KillTheMoleActivity : AppCompatActivity() {
                 game.start()
             }
         }
+
         timer.start()
+
+        //Controller
+
+        buttonRestart.setOnClickListener{
+            ScoreOfKill.text = resources.getString(R.string.resultOfKill)
+            textToReady.text = resources.getString(R.string.timeToKill)
+            timer.start()
+            buttonRestart.showOrInvisible(false)
+            buttonHome.showOrInvisible(false)
+        }
+
+        buttonHome.setOnClickListener{
+            val homeIntent = Intent(this, MainActivity::class.java)
+            startActivity(homeIntent)
+        }
     }
 }

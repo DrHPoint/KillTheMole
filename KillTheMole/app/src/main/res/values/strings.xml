@@ -7,4 +7,13 @@
     <string name="timeToKill">60</string>
     <string name="resultOfKill">0</string>
     <string name="Ready">Ready?</string>
+    <string name="reStart">Заново</string>
+    <string name="inHome">На главную</string>
+    <string name="GameOver">Game Over</string>
+    <string name="Result">Result: </string>
+    <string-array name="Modes_array">
+        <item>Normal</item>
+        <item>Hard</item>
+        <item>Hell</item>
+    </string-array>
 </resources>
