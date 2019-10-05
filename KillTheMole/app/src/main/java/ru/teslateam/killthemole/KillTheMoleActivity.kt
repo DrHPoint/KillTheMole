@@ -64,12 +64,9 @@ class KillTheMoleActivity : AppCompatActivity() {
         fun nextGame() {
             TimeToKill.text = resources.getString(R.string.resultOfKill)
             textToReady.text = resources.getString(R.string.GameOver)
-            LifeBeforeKill.text = resources.getString(R.string.lifeBeforeDeath)
-            life = 10
             Handler().postDelayed({
                 textToReady.text = resources.getString(R.string.Result) + score.toString()
                 Handler().postDelayed({
-                    score = 0
                     buttonRestart.showOrInvisible(true)
                     buttonHome.showOrInvisible(true)
                 }, 1000)
@@ -109,7 +106,6 @@ class KillTheMoleActivity : AppCompatActivity() {
                         life--
                         LifeBeforeKill.text = life.toString()
                     }
-                    death = false
                 }
             }
         }
@@ -123,6 +119,7 @@ class KillTheMoleActivity : AppCompatActivity() {
             }
             override fun onFinish() {
                 moleAnimation(0)
+                death = false
             }
         }
         val game = object: CountDownTimer(60100, 1000) {
@@ -160,7 +157,10 @@ class KillTheMoleActivity : AppCompatActivity() {
 
         buttonRestart.setOnClickListener{
             ScoreOfKill.text = resources.getString(R.string.resultOfKill)
-            textToReady.text = resources.getString(R.string.timeToKill)
+            LifeBeforeKill.text = resources.getString(R.string.lifeBeforeDeath)
+            TimeToKill.text = resources.getString(R.string.timeToKill)
+            score = 0
+            life = 10
             timer.start()
             buttonRestart.showOrInvisible(false)
             buttonHome.showOrInvisible(false)
