@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/killback"
+    android:background="@drawable/wall"
     tools:context=".KillTheMoleActivity">
 
     <TextView
@@ -16,7 +16,7 @@
         android:fontFamily="sans-serif"
         android:text="@string/timeNote"
         android:textColor="@color/colorLightning"
-        android:textSize="36sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,9 +29,23 @@
         android:fontFamily="sans-serif"
         android:text="@string/resultsNote"
         android:textColor="@color/colorLightning"
-        android:textSize="36sp"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textLifeLable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/life"
+        android:textColor="@color/colorLightning"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textScoreLable"
+        app:layout_constraintEnd_toEndOf="@+id/textTimeLable"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/TimeToKill"
@@ -42,7 +56,7 @@
         android:fontFamily="sans-serif"
         android:text="@string/timeToKill"
         android:textColor="@color/colorLightning"
-        android:textSize="36sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTimeLable" />
 
@@ -54,8 +68,20 @@
         android:layout_marginTop="15dp"
         android:text="@string/resultOfKill"
         android:textColor="@color/colorLightning"
-        android:textSize="36sp"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textScoreLable" />
+
+    <TextView
+        android:id="@+id/LifeBeforeKill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/lifeBeforeDeath"
+        android:textColor="@color/colorLightning"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textScoreLable" />
 
     <TextView
@@ -72,10 +98,10 @@
 
     <Button
         android:id="@+id/firstMole"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="320dp"
-        android:layout_marginEnd="50dp"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginEnd="64dp"
         android:background="@drawable/empty"
         android:onClick="onClickMole"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,10 +109,10 @@
 
     <Button
         android:id="@+id/secondMole"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="370dp"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="284dp"
         android:background="@drawable/empty"
         android:onClick="onClickMole"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,10 +120,10 @@
 
     <Button
         android:id="@+id/thirdMole"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="470dp"
-        android:layout_marginEnd="120dp"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginEnd="80dp"
         android:background="@drawable/empty"
         android:onClick="onClickMole"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,10 +131,10 @@
 
     <Button
         android:id="@+id/forthMole"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="570dp"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="520dp"
         android:background="@drawable/empty"
         android:onClick="onClickMole"
         app:layout_constraintStart_toStartOf="parent"

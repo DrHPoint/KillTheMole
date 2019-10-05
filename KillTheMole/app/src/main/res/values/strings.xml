@@ -2,10 +2,12 @@
     <string name="app_name">KillTheMole</string>
     <string name="Start">Начать</string>
     <string name="Exit">Выход</string>
-    <string name="timeNote">Время:</string>
-    <string name="resultsNote">Счёт:</string>
+    <string name="timeNote">Time:</string>
+    <string name="resultsNote">Score:</string>
+    <string name="life">Life:</string>
     <string name="timeToKill">60</string>
     <string name="resultOfKill">0</string>
+    <string name="lifeBeforeDeath">10</string>
     <string name="Ready">Ready?</string>
     <string name="reStart">Заново</string>
     <string name="inHome">На главную</string>

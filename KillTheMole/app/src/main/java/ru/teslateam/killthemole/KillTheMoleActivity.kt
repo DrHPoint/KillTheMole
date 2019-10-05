@@ -16,23 +16,26 @@ class KillTheMoleActivity : AppCompatActivity() {
     var moleNumber = 0
     var moleScoreNumber = 0
     var score = 0
+    private var death = false
+    var life = 10
     
     //View
 
     fun onClickMole(view: View) {
-        view.setBackgroundResource(R.drawable.empty)
         when(view.id) {
-            firstMole.id -> if (moleScoreNumber == 1) scorePlus()
-            secondMole.id -> if (moleScoreNumber == 2) scorePlus()
-            thirdMole.id -> if (moleScoreNumber == 3) scorePlus()
-            forthMole.id -> if (moleScoreNumber == 4) scorePlus()
+            firstMole.id -> if (moleScoreNumber == 1) scorePlus(view)
+            secondMole.id -> if (moleScoreNumber == 2) scorePlus(view)
+            thirdMole.id -> if (moleScoreNumber == 3) scorePlus(view)
+            forthMole.id -> if (moleScoreNumber == 4) scorePlus(view)
         }
         ScoreOfKill.text = score.toString()
     }
 
     //Controller
 
-    private fun scorePlus() {
+    private fun scorePlus(view: View) {
+        death = true
+        view.setBackgroundResource(R.drawable.zombiedeath)
         score++
         moleScoreNumber = 0
     }
@@ -58,25 +61,40 @@ class KillTheMoleActivity : AppCompatActivity() {
             }
         }
 
+        fun nextGame() {
+            TimeToKill.text = resources.getString(R.string.resultOfKill)
+            textToReady.text = resources.getString(R.string.GameOver)
+            LifeBeforeKill.text = resources.getString(R.string.lifeBeforeDeath)
+            life = 10
+            Handler().postDelayed({
+                textToReady.text = resources.getString(R.string.Result) + score.toString()
+                Handler().postDelayed({
+                    score = 0
+                    buttonRestart.showOrInvisible(true)
+                    buttonHome.showOrInvisible(true)
+                }, 1000)
+            }, 500)
+        }
+
         fun moleAnimation(a: Int) {
             when(a) {
                 3 -> when(moleNumber) {
-                    1 -> firstMole.setBackgroundResource(R.drawable.mole1)
-                    2 -> secondMole.setBackgroundResource(R.drawable.mole1)
-                    3 -> thirdMole.setBackgroundResource(R.drawable.mole1)
-                    4 -> forthMole.setBackgroundResource(R.drawable.mole1)
+                    1 -> firstMole.setBackgroundResource(R.drawable.zombie1)
+                    2 -> secondMole.setBackgroundResource(R.drawable.zombie1)
+                    3 -> thirdMole.setBackgroundResource(R.drawable.zombie1)
+                    4 -> forthMole.setBackgroundResource(R.drawable.zombie1)
                 }
                 2 -> when(moleNumber) {
-                    1 -> firstMole.setBackgroundResource(R.drawable.mole2)
-                    2 -> secondMole.setBackgroundResource(R.drawable.mole2)
-                    3 -> thirdMole.setBackgroundResource(R.drawable.mole2)
-                    4 -> forthMole.setBackgroundResource(R.drawable.mole2)
+                    1 -> firstMole.setBackgroundResource(R.drawable.zombie2)
+                    2 -> secondMole.setBackgroundResource(R.drawable.zombie2)
+                    3 -> thirdMole.setBackgroundResource(R.drawable.zombie2)
+                    4 -> forthMole.setBackgroundResource(R.drawable.zombie2)
                 }
                 1 -> when(moleNumber) {
-                    1 -> firstMole.setBackgroundResource(R.drawable.mole3)
-                    2 -> secondMole.setBackgroundResource(R.drawable.mole3)
-                    3 -> thirdMole.setBackgroundResource(R.drawable.mole3)
-                    4 -> forthMole.setBackgroundResource(R.drawable.mole3)
+                    1 -> firstMole.setBackgroundResource(R.drawable.zombie3)
+                    2 -> secondMole.setBackgroundResource(R.drawable.zombie3)
+                    3 -> thirdMole.setBackgroundResource(R.drawable.zombie3)
+                    4 -> forthMole.setBackgroundResource(R.drawable.zombie3)
                 }
                 0 -> {
                     when (moleNumber) {
@@ -87,6 +105,11 @@ class KillTheMoleActivity : AppCompatActivity() {
                     }
                     moleNumber = 0
                     moleScoreNumber = 0
+                    if (!death) {
+                        life--
+                        LifeBeforeKill.text = life.toString()
+                    }
+                    death = false
                 }
             }
         }
@@ -104,23 +127,20 @@ class KillTheMoleActivity : AppCompatActivity() {
         }
         val game = object: CountDownTimer(60100, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                TimeToKill.text = floor(millisUntilFinished.toDouble()/1000).toInt().toString()
-                if (floor(millisUntilFinished.toDouble()/1000).toInt()%(modeNum-1) == 0) {
-                    randMole()
-                    mole.start()
+                if (life != 0) {
+                    TimeToKill.text =
+                        floor(millisUntilFinished.toDouble() / 1000).toInt().toString()
+                    if (floor(millisUntilFinished.toDouble() / 1000).toInt() % (modeNum - 1) == 0) {
+                        randMole()
+                        mole.start()
+                    }
+                } else {
+                    nextGame()
+                    cancel()
                 }
             }
             override fun onFinish() {
-                TimeToKill.text = resources.getString(R.string.timeToKill)
-                textToReady.text = resources.getString(R.string.GameOver)
-                Handler().postDelayed({
-                    textToReady.text = resources.getString(R.string.Result) + score.toString()
-                    Handler().postDelayed({
-                        score = 0
-                        buttonRestart.showOrInvisible(true)
-                        buttonHome.showOrInvisible(true)
-                    }, 1000)
-                }, 500)
+                nextGame()
             }
         }
 
