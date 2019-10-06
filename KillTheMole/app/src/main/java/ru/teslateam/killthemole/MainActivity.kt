@@ -18,19 +18,22 @@ class MainActivity : AppCompatActivity() {
         val mode: Array<String> = resources.getStringArray(R.array.Modes_array)
         var modeInNumber = 4
 
+        fun spinnerSelect(x: String): Int {
+            when (x) {
+                mode[0] -> return 4
+                mode[1] -> return 3
+                mode[2] -> return 2
+                else -> return 4
+            }
+        }
+
         val adapter = ArrayAdapter(this, R.layout.spinner, mode)
-
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
-
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
-                when (parent.getItemAtPosition(position).toString()) {
-                    mode[0] -> modeInNumber = 4
-                    mode[1] -> modeInNumber = 3
-                    mode[2] -> modeInNumber = 2
-                }
+            override fun onItemSelected(parent:AdapterView<*>, view: View?, position: Int, id: Long){
+                modeInNumber = spinnerSelect(parent.getItemAtPosition(position).toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>){
             }

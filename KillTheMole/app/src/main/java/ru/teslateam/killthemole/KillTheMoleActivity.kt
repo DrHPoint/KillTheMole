@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_kill_the_mole.*
 import kotlin.math.floor
 import android.os.Handler
 import kotlin.random.Random
+import kotlin.system.exitProcess
 
 
 class KillTheMoleActivity : AppCompatActivity() {
@@ -167,8 +168,9 @@ class KillTheMoleActivity : AppCompatActivity() {
         }
 
         buttonHome.setOnClickListener{
-            val homeIntent = Intent(this, MainActivity::class.java)
-            startActivity(homeIntent)
+            //val homeIntent = Intent(this, MainActivity::class.java)
+            //startActivity(homeIntent)
+            exitProcess(-1)
         }
     }
 }
