@@ -8,7 +8,7 @@
     tools:context=".KillTheMoleActivity">
 
     <TextView
-        android:id="@+id/textTimeLable"
+        android:id="@+id/textTimeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textScoreLable"
+        android:id="@+id/textScoreLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textLifeLable"
+        android:id="@+id/textLifeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -42,13 +42,13 @@
         android:text="@string/life"
         android:textColor="@color/colorLightning"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/textScoreLable"
-        app:layout_constraintEnd_toEndOf="@+id/textTimeLable"
+        app:layout_constraintStart_toStartOf="@+id/textScoreLabel"
+        app:layout_constraintEnd_toEndOf="@+id/textTimeLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
-        android:id="@+id/TimeToKill"
+        android:id="@+id/timeToKill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -58,10 +58,10 @@
         android:textColor="@color/colorLightning"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTimeLable" />
+        app:layout_constraintTop_toBottomOf="@+id/textTimeLabel" />
 
     <TextView
-        android:id="@+id/ScoreOfKill"
+        android:id="@+id/scoreOfKill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -70,10 +70,10 @@
         android:textColor="@color/colorLightning"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textScoreLable" />
+        app:layout_constraintTop_toBottomOf="@+id/textScoreLabel" />
 
     <TextView
-        android:id="@+id/LifeBeforeKill"
+        android:id="@+id/lifeBeforeKill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -82,7 +82,7 @@
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textScoreLable" />
+        app:layout_constraintTop_toBottomOf="@+id/textScoreLabel" />
 
     <TextView
         android:id="@+id/textToReady"
@@ -102,7 +102,7 @@
         android:layout_height="160dp"
         android:layout_marginTop="256dp"
         android:layout_marginEnd="64dp"
-        android:background="@drawable/empty"
+        android:background="@drawable/zombie0"
         android:onClick="onClickMole"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -113,7 +113,7 @@
         android:layout_height="160dp"
         android:layout_marginStart="44dp"
         android:layout_marginTop="284dp"
-        android:background="@drawable/empty"
+        android:background="@drawable/zombie0"
         android:onClick="onClickMole"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -124,7 +124,7 @@
         android:layout_height="160dp"
         android:layout_marginTop="464dp"
         android:layout_marginEnd="80dp"
-        android:background="@drawable/empty"
+        android:background="@drawable/zombie0"
         android:onClick="onClickMole"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -135,7 +135,7 @@
         android:layout_height="160dp"
         android:layout_marginStart="44dp"
         android:layout_marginTop="520dp"
-        android:background="@drawable/empty"
+        android:background="@drawable/zombie0"
         android:onClick="onClickMole"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
