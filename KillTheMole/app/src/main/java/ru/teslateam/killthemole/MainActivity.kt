@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         buttonStart.setOnClickListener{
             val newIntent = Intent(this, KillTheMoleActivity::class.java)
-            newIntent.putExtra(KillTheMoleActivity.TOTAL_MODE, modeInNumber)
+            newIntent.putExtra(KillTheMoleClass.TOTAL_MODE, modeInNumber)
             startActivity(newIntent)
         }
 
