@@ -7,10 +7,8 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_kill_the_mole.*
 import kotlin.math.floor
 import android.os.Handler
-import android.widget.RadioGroup
 import android.widget.Button
-import kotlin.random.Random
-import kotlin.system.exitProcess
+import androidx.constraintlayout.widget.Group
 
 
 class KillTheMoleActivity : AppCompatActivity() {
@@ -20,7 +18,13 @@ class KillTheMoleActivity : AppCompatActivity() {
 
     //View
 
-    fun onClickMole(view: View) {
+    private fun Group.setAllOnClickListener(listener: View.OnClickListener?) {
+        referencedIds.forEach { id ->
+            rootView.findViewById<View>(id).setOnClickListener(listener)
+        }
+    }
+
+    private fun onClickMole(view: View) {
         when(view.id) {
             firstMole.id -> moleClass.onClickId = 1
             secondMole.id -> moleClass.onClickId = 2
@@ -138,5 +142,9 @@ class KillTheMoleActivity : AppCompatActivity() {
         buttonHome.setOnClickListener{
             finish()
         }
+
+        group1.setAllOnClickListener(View.OnClickListener { v -> onClickMole(v) })
+
+
     }
 }
