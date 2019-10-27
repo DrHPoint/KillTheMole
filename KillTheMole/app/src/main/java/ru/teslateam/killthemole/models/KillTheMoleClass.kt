@@ -1,10 +1,11 @@
-package ru.teslateam.killthemole
+package ru.teslateam.killthemole.models
 
-import android.view.View
 import kotlin.random.Random
 import kotlin.math.floor
 
 class KillTheMoleClass {
+
+    //MyApplication.applicationContext()
 
     companion object {
         const val TOTAL_MODE = "total_mode"
@@ -14,6 +15,7 @@ class KillTheMoleClass {
         const val TIMER_COUNT: Long = 3100
     }
 
+    var imageArray = Array(4){0}
     var moleNumber = 0
     var moleScoreNumber = 0
     var score = 0
@@ -23,6 +25,14 @@ class KillTheMoleClass {
     var moleCount: Long = 0
     var moleOnTickCount: Long = 0
     var onClickId: Int = 0
+
+    init{
+        for (i in 0..3) {
+            imageArray[i] = MyApplication.applicationContext().resources
+                .getIdentifier("zombie$i","drawable",
+                    MyApplication.applicationContext().packageName)
+        }
+    }
 
 
     fun randMole() {

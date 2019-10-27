@@ -1,4 +1,4 @@
-package ru.teslateam.killthemole
+package ru.teslateam.killthemole.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.system.exitProcess
 import android.widget.AdapterView
+import ru.teslateam.killthemole.models.KillTheMoleClass
+import ru.teslateam.killthemole.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,11 +20,11 @@ class MainActivity : AppCompatActivity() {
         var modeInNumber = 4
 
         fun spinnerSelect(x: String): Int {
-            when (x) {
-                mode[0] -> return 4
-                mode[1] -> return 3
-                mode[2] -> return 2
-                else -> return 4
+            return when (x) {
+                mode[0] -> 4
+                mode[1] -> 3
+                mode[2] -> 2
+                else -> 4
             }
         }
 
@@ -39,8 +40,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //Controller
-
         buttonStart.setOnClickListener{
             val newIntent = Intent(this, KillTheMoleActivity::class.java)
             newIntent.putExtra(KillTheMoleClass.TOTAL_MODE, modeInNumber)
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonExit.setOnClickListener {
-            exitProcess(-1)
+            finish()
         }
     }
 }

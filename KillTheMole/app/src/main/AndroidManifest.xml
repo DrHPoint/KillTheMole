@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".KillTheMoleActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        android:theme="@style/AppTheme"
+        android:name=".models.MyApplication">
+        <activity android:name=".activities.KillTheMoleActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
