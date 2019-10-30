@@ -4,29 +4,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.Button
 import kotlinx.android.synthetic.main.activity_kill_the_mole.*
-import kotlin.math.floor
 import android.os.Handler
 import androidx.constraintlayout.widget.Group
-import ru.teslateam.killthemole.models.KillTheMoleClass
 import ru.teslateam.killthemole.R
+import ru.teslateam.killthemole.data.DataClassActivity
+import ru.teslateam.killthemole.models.*
 
 
 class KillTheMoleActivity : AppCompatActivity() {
 
     private lateinit var moleClass : KillTheMoleClass
 
-    private fun View.showOrInvisible(show: Boolean) {
-        visibility = if(show) {
-            View.VISIBLE
-        } else {
-            View.INVISIBLE
-        }
-    }
-
     private fun kill(view: View) {
         scoreOfKill.text = moleClass.score.toString()
         view.setBackgroundResource(R.drawable.zombiedeath)
+        Handler().postDelayed({
+            view.setBackgroundResource(moleClass.imageArray[0])
+        }, moleClass.moleOnTickCount)
     }
 
     fun preNextGame() {
@@ -42,12 +38,8 @@ class KillTheMoleActivity : AppCompatActivity() {
     }
 
     fun moleAnimation(a: Int) {
-        when (moleClass.moleNumber) {
-            1 -> firstMole.setBackgroundResource(moleClass.imageArray[a])
-            2 -> secondMole.setBackgroundResource(moleClass.imageArray[a])
-            3 -> thirdMole.setBackgroundResource(moleClass.imageArray[a])
-            4 -> forthMole.setBackgroundResource(moleClass.imageArray[a])
-        }
+        if (moleClass.move())
+            findViewById<Button>(moleClass.moleNumber).setBackgroundResource(moleClass.imageArray[a])
         if (a == 0) {
             moleClass.loseLife()
             lifeBeforeKill.text = moleClass.life.toString()
@@ -62,18 +54,28 @@ class KillTheMoleActivity : AppCompatActivity() {
         buttonHome.showOrInvisible(false)
     }
 
+    private fun onClickMole(view: View) {
+        if (moleClass.hunter(view.id)) {
+            moleClass.scorePlus()
+            kill(view)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kill_the_mole)
 
-        moleClass = KillTheMoleClass()
-        moleClass.modeNum = intent.getIntExtra(KillTheMoleClass.TOTAL_MODE,1)
-        moleClass.switchMode()
+        val thisData = DataClassActivity(
+            "KillTheMole",
+            MyApplication.applicationContext(), group1.referencedIds,
+            intent.getIntExtra(KillTheMoleClass.TOTAL_MODE, 1)
+        )
+            moleClass = KillTheMoleClass(thisData)
 
         val mole = object: CountDownTimer(moleClass.moleCount, moleClass.moleOnTickCount) {
             override fun onTick(millisUntilFinished: Long) {
-                if(moleClass.moleNumber == moleClass.moleScoreNumber)
-                    moleAnimation(floor(millisUntilFinished.toDouble()/(moleClass.modeNum*100)).toInt())
+                if(moleClass.move())
+                    moleAnimation(moleClass.whichMole(millisUntilFinished))
                 else
                     moleAnimation(0)
             }
@@ -86,9 +88,10 @@ class KillTheMoleActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 timeToKill.text = moleClass.onTick(millisUntilFinished).toString()
                 if (moleClass.newMole(millisUntilFinished)) {
-                        moleClass.randMole()
-                        mole.start()
-                } else {
+                    moleClass.randMole()
+                    mole.start()
+                }
+                if (moleClass.loseGame()) {
                     preNextGame()
                     cancel()
                 }
@@ -117,25 +120,6 @@ class KillTheMoleActivity : AppCompatActivity() {
             reStart()
             moleClass.reStart()
             timer.start()
-        }
-
-        fun onClickMole(view: View) {
-            when(view.id) {
-                firstMole.id -> moleClass.onClickId = 1
-                secondMole.id -> moleClass.onClickId = 2
-                thirdMole.id -> moleClass.onClickId = 3
-                forthMole.id -> moleClass.onClickId = 4
-            }
-            if (moleClass.moleScoreNumber == moleClass.onClickId) {
-                moleClass.scorePlus()
-                kill(view)
-            }
-        }
-
-        fun Group.setAllOnClickListener(listener: View.OnClickListener?) {
-            referencedIds.forEach { id ->
-                rootView.findViewById<View>(id).setOnClickListener(listener)
-            }
         }
 
         group1.setAllOnClickListener(View.OnClickListener { v -> onClickMole(v) })

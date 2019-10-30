@@ -1,11 +1,10 @@
 package ru.teslateam.killthemole.models
 
+import ru.teslateam.killthemole.data.DataClassActivity
 import kotlin.random.Random
 import kotlin.math.floor
 
-class KillTheMoleClass {
-
-    //MyApplication.applicationContext()
+class KillTheMoleClass(data: DataClassActivity) {
 
     companion object {
         const val TOTAL_MODE = "total_mode"
@@ -17,33 +16,34 @@ class KillTheMoleClass {
 
     var imageArray = Array(4){0}
     var moleNumber = 0
-    var moleScoreNumber = 0
     var score = 0
     var life = 10
     var death = false
-    var modeNum = 0
+    private var modeNum = 0
     var moleCount: Long = 0
     var moleOnTickCount: Long = 0
-    var onClickId: Int = 0
+    private var buttonIds: IntArray? = null
 
     init{
         for (i in 0..3) {
-            imageArray[i] = MyApplication.applicationContext().resources
+            imageArray[i] = data.context!!.resources
                 .getIdentifier("zombie$i","drawable",
-                    MyApplication.applicationContext().packageName)
+                    data.context.packageName)
         }
+        buttonIds = data.ids
+        modeNum = data.mode
+        moleCount = ((modeNum*3+1)*100).toLong()
+        moleOnTickCount = (modeNum*100).toLong()
     }
 
-
     fun randMole() {
-        moleNumber = Random.nextInt(1, 5)
-        moleScoreNumber = moleNumber
+        moleNumber = buttonIds!![Random.nextInt(0, 4)]
     }
 
     fun scorePlus() {
         death = true
         score++
-        moleScoreNumber = 0
+        moleNumber = 0
     }
 
     fun reStart() {
@@ -51,20 +51,22 @@ class KillTheMoleClass {
         life = 10
     }
 
-    fun switchMode() {
-        moleCount = ((modeNum*3+1)*100).toLong()
-        moleOnTickCount = (modeNum*100).toLong()
-    }
-
-    fun onTick(millis: Long):Int = floor(millis.toDouble()/1000).toInt()
+    fun onTick(millis: Long): Int = floor(millis.toDouble()/1000).toInt()
 
     fun loseLife() {
         moleNumber = 0
-        moleScoreNumber = 0
         if (!death) life--
     }
 
-    fun newMole(millis: Long): Boolean = ((life != 0) && (onTick(millis) % (modeNum - 1) == 0))
+    fun loseGame(): Boolean = (life == 0)
+
+    fun whichMole(millis: Long): Int = floor(millis.toDouble()/(modeNum*100)).toInt()
+
+    fun newMole(millis: Long): Boolean = ((!loseGame()) && (onTick(millis) % (modeNum - 1) == 0))
+
+    fun hunter(id: Int): Boolean = (moleNumber == id)
+
+    fun move(): Boolean = (moleNumber != 0)
 
 
 }

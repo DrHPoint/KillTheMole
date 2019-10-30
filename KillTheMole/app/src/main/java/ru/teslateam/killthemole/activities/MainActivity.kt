@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.AdapterView
 import ru.teslateam.killthemole.models.KillTheMoleClass
 import ru.teslateam.killthemole.R
+import ru.teslateam.killthemole.models.Mode
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,22 +20,13 @@ class MainActivity : AppCompatActivity() {
         val mode: Array<String> = resources.getStringArray(R.array.Modes_array)
         var modeInNumber = 4
 
-        fun spinnerSelect(x: String): Int {
-            return when (x) {
-                mode[0] -> 4
-                mode[1] -> 3
-                mode[2] -> 2
-                else -> 4
-            }
-        }
-
         val adapter = ArrayAdapter(this, R.layout.spinner, mode)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent:AdapterView<*>, view: View?, position: Int, id: Long){
-                modeInNumber = spinnerSelect(parent.getItemAtPosition(position).toString())
+                modeInNumber = Mode.getCardTypeByName(parent.getItemAtPosition(position).toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>){
             }
