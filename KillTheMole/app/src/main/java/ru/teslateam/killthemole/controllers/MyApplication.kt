@@ -1,4 +1,4 @@
-package ru.teslateam.killthemole.models
+package ru.teslateam.killthemole.controllers
 
 import android.app.Application
 import android.content.Context
@@ -20,6 +20,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val context: Context = MyApplication.applicationContext()
+        val context: Context =
+            applicationContext()
     }
 }

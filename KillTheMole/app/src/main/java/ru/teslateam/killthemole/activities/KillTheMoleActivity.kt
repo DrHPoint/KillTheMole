@@ -8,6 +8,7 @@ import android.widget.Button
 import kotlinx.android.synthetic.main.activity_kill_the_mole.*
 import android.os.Handler
 import ru.teslateam.killthemole.R
+import ru.teslateam.killthemole.controllers.MyApplication
 import ru.teslateam.killthemole.data.DataClassActivity
 import ru.teslateam.killthemole.models.*
 

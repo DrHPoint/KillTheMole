@@ -10,7 +10,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".models.MyApplication">
+        android:name=".controllers.MyApplication">
         <activity android:name=".activities.KillTheMoleActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activities.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
