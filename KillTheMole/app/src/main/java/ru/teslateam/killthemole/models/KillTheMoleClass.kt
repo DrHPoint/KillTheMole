@@ -14,7 +14,7 @@ class KillTheMoleClass(data: DataClassActivity) {
         const val TIMER_COUNT: Long = 3100
     }
 
-    var imageArray = Array(4){0}
+    var imageArray = Array(4) { 0 }
     var moleNumber = 0
     var score = 0
     var life = 10
@@ -24,16 +24,18 @@ class KillTheMoleClass(data: DataClassActivity) {
     var moleOnTickCount: Long = 0
     private var buttonIds: IntArray? = null
 
-    init{
+    init {
         for (i in 0..3) {
             imageArray[i] = data.context!!.resources
-                .getIdentifier("zombie$i","drawable",
-                    data.context.packageName)
+                .getIdentifier(
+                    "zombie$i", "drawable",
+                    data.context.packageName
+                )
         }
         buttonIds = data.ids
         modeNum = data.mode
-        moleCount = ((modeNum*3+1)*100).toLong()
-        moleOnTickCount = (modeNum*100).toLong()
+        moleCount = ((modeNum * 3 + 1) * 100).toLong()
+        moleOnTickCount = (modeNum * 100).toLong()
     }
 
     fun randMole() {
@@ -51,7 +53,7 @@ class KillTheMoleClass(data: DataClassActivity) {
         life = 10
     }
 
-    fun onTick(millis: Long): Int = floor(millis.toDouble()/1000).toInt()
+    fun onTick(millis: Long): Int = floor(millis.toDouble() / 1000).toInt()
 
     fun loseLife() {
         moleNumber = 0
@@ -60,7 +62,7 @@ class KillTheMoleClass(data: DataClassActivity) {
 
     fun loseGame(): Boolean = (life == 0)
 
-    fun whichMole(millis: Long): Int = floor(millis.toDouble()/(modeNum*100)).toInt()
+    fun whichMole(millis: Long): Int = floor(millis.toDouble() / (modeNum * 100)).toInt()
 
     fun newMole(millis: Long): Boolean = ((!loseGame()) && (onTick(millis) % (modeNum - 1) == 0))
 

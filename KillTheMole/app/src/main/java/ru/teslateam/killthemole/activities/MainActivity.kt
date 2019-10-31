@@ -24,15 +24,21 @@ class MainActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent:AdapterView<*>, view: View?, position: Int, id: Long){
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 modeInNumber = Mode.getCardTypeByName(parent.getItemAtPosition(position).toString())
             }
-            override fun onNothingSelected(parent: AdapterView<*>){
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
 
-        buttonStart.setOnClickListener{
+        buttonStart.setOnClickListener {
             val newIntent = Intent(this, KillTheMoleActivity::class.java)
             newIntent.putExtra(KillTheMoleClass.TOTAL_MODE, modeInNumber)
             startActivity(newIntent)

@@ -4,7 +4,7 @@ import android.view.View
 import androidx.constraintlayout.widget.Group
 
 fun View.showOrInvisible(show: Boolean) {
-    visibility = if(show) {
+    visibility = if (show) {
         View.VISIBLE
     } else {
         View.INVISIBLE

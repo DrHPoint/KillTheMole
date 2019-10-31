@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_kill_the_mole.*
 import android.os.Handler
-import androidx.constraintlayout.widget.Group
 import ru.teslateam.killthemole.R
 import ru.teslateam.killthemole.data.DataClassActivity
 import ru.teslateam.killthemole.models.*
@@ -15,7 +14,7 @@ import ru.teslateam.killthemole.models.*
 
 class KillTheMoleActivity : AppCompatActivity() {
 
-    private lateinit var moleClass : KillTheMoleClass
+    private lateinit var moleClass: KillTheMoleClass
 
     private fun kill(view: View) {
         scoreOfKill.text = moleClass.score.toString()
@@ -70,53 +69,58 @@ class KillTheMoleActivity : AppCompatActivity() {
             MyApplication.applicationContext(), group1.referencedIds,
             intent.getIntExtra(KillTheMoleClass.TOTAL_MODE, 1)
         )
-            moleClass = KillTheMoleClass(thisData)
+        moleClass = KillTheMoleClass(thisData)
 
-        val mole = object: CountDownTimer(moleClass.moleCount, moleClass.moleOnTickCount) {
+        val mole = object : CountDownTimer(moleClass.moleCount, moleClass.moleOnTickCount) {
             override fun onTick(millisUntilFinished: Long) {
-                if(moleClass.move())
+                if (moleClass.move())
                     moleAnimation(moleClass.whichMole(millisUntilFinished))
                 else
                     moleAnimation(0)
             }
+
             override fun onFinish() {
                 moleAnimation(0)
                 moleClass.death = false
             }
         }
-        val game = object: CountDownTimer(KillTheMoleClass.GAME_COUNT, KillTheMoleClass.STANDARD_COUNT) {
-            override fun onTick(millisUntilFinished: Long) {
-                timeToKill.text = moleClass.onTick(millisUntilFinished).toString()
-                if (moleClass.newMole(millisUntilFinished)) {
-                    moleClass.randMole()
-                    mole.start()
+        val game =
+            object : CountDownTimer(KillTheMoleClass.GAME_COUNT, KillTheMoleClass.STANDARD_COUNT) {
+                override fun onTick(millisUntilFinished: Long) {
+                    timeToKill.text = moleClass.onTick(millisUntilFinished).toString()
+                    if (moleClass.newMole(millisUntilFinished)) {
+                        moleClass.randMole()
+                        mole.start()
+                    }
+                    if (moleClass.loseGame()) {
+                        preNextGame()
+                        cancel()
+                    }
                 }
-                if (moleClass.loseGame()) {
+
+                override fun onFinish() {
                     preNextGame()
-                    cancel()
                 }
             }
-            override fun onFinish() {
-                preNextGame()
+        val timer =
+            object : CountDownTimer(KillTheMoleClass.TIMER_COUNT, KillTheMoleClass.STANDARD_COUNT) {
+                override fun onTick(millisUntilFinished: Long) {
+                    textToReady.text = moleClass.onTick(millisUntilFinished).toString()
+                }
+
+                override fun onFinish() {
+                    textToReady.text = resources.getString(R.string.Empty)
+                    game.start()
+                }
             }
-        }
-        val timer = object: CountDownTimer(KillTheMoleClass.TIMER_COUNT, KillTheMoleClass.STANDARD_COUNT) {
-            override fun onTick(millisUntilFinished: Long) {
-                textToReady.text = moleClass.onTick(millisUntilFinished).toString()
-            }
-            override fun onFinish() {
-                textToReady.text = resources.getString(R.string.Empty)
-                game.start()
-            }
-        }
 
         timer.start()
 
-        buttonHome.setOnClickListener{
+        buttonHome.setOnClickListener {
             finish()
         }
 
-        buttonRestart.setOnClickListener{
+        buttonRestart.setOnClickListener {
             reStart()
             moleClass.reStart()
             timer.start()
